@@ -30,22 +30,35 @@ const server = http.createServer(function(req, res) {
     });
   }
   else if (page == '/api') {
-    if('student' in params){
-      if(params['student']== 'leon'){
+    let coinFlip= Math.floor(Math.random() * 2)
+    let heads = 1
+    let tails = 0
+    if('userguess' in params){
+      if(params['userguess']== 'Heads' && coinFlip === heads){
         res.writeHead(200, {'Content-Type': 'application/json'});
         const objToJson = {
-          name: "leon",
-          status: "Boss Man",
-          currentOccupation: "Baller"
+          result: "you Won",
         }
         res.end(JSON.stringify(objToJson));
       }//student = leon
-      else if(params['student'] != 'leon'){
+      else if(params['userguess']== 'Heads' && coinFlip === tails){
         res.writeHead(200, {'Content-Type': 'application/json'});
         const objToJson = {
-          name: "unknown",
-          status: "unknown",
-          currentOccupation: "unknown"
+          result: "you lost",
+        }
+        res.end(JSON.stringify(objToJson));
+      }
+      else if(params['userguess']== 'Tails' && coinFlip === tails){
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        const objToJson = {
+          result: "you Won",
+        }
+        res.end(JSON.stringify(objToJson));
+      }
+      else if(params['userguess']== 'Tails' && coinFlip === heads){
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        const objToJson = {
+          result: "You Lost",
         }
         res.end(JSON.stringify(objToJson));
       }//student != leon
@@ -56,23 +69,24 @@ const server = http.createServer(function(req, res) {
       res.write(data);
       res.end();
     });
-  }else if (page == '/js/main.js'){
-    fs.readFile('js/main.js', function(err, data) {
+  }else if (page == '/index.js'){
+    fs.readFile('index.js', function(err, data) {
       res.writeHead(200, {'Content-Type': 'text/javascript'});
       res.write(data);
       res.end();
     });
-  }else{
-    figlet('404!!', function(err, data) {
-      if (err) {
-          console.log('Something went wrong...');
-          console.dir(err);
-          return;
-      }
-      res.write(data);
-      res.end();
-    });
-  }
+   }
+  //else{
+  //   figlet('404!!', function(err, data) {
+  //     if (err) {
+  //         console.log('Something went wrong...');
+  //         console.dir(err);
+  //         return;
+  //     }
+  //     res.write(data);
+  //     res.end();
+  //   });
+  // }
 });
 
 server.listen(8000);
